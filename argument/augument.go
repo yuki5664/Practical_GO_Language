@@ -69,3 +69,40 @@ func NewUdon(opt Option) *Udon {
 		ebiten:   opt.ebiten,
 	}
 }
+
+// ビルダーを利用したオプション引数
+type fluentOpt struct {
+	men      Portion
+	aburaage bool
+	ebiten   uint
+}
+
+func NewUdon(p Portion) *fluentOpt {
+	return &fluentOpt{
+		men:      p,
+		aburaage: false,
+		ebiten:   1,
+	}
+}
+
+func (o *fluentOpt) Aburaage() *fluentOpt {
+	o.aburaage = true
+	return o
+}
+
+func (o *fluentOpt) Ebiten(n uint) *fluentOpt {
+	o.ebiten = n
+	return o
+}
+
+func (o *fluentOpt) Order() *Udon {
+	return &Udon{
+		men:      o.men,
+		aburaage: o.aburaage,
+		ebiten:   o.ebiten,
+	}
+}
+
+func useFluentInterfase() {
+	oomoriKitsune := NewUdon(Large).Aburaage().Order()
+}
