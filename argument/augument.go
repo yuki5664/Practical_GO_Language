@@ -1,5 +1,7 @@
 package argument
 
+import "time"
+
 type Portion int
 
 const (
@@ -47,5 +49,23 @@ func NewTempuraUdon(p Portion) *Udon {
 		men:      p,
 		aburaage: false,
 		ebiten:   3,
+	}
+}
+
+// 構造体を利用したオプション引数
+type Option struct {
+	men      Portion
+	aburaage bool
+	ebiten   uint
+}
+
+func NewUdon(opt Option) *Udon {
+	if opt.ebiten == 0 && time.Now().Hour() < 10 {
+		opt.ebiten = 1
+	}
+	return &Udon{
+		men:      opt.men,
+		aburaage: opt.aburaage,
+		ebiten:   opt.ebiten,
 	}
 }
