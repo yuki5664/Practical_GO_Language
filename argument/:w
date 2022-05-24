@@ -1,7 +1,0 @@
-package argument
-
-type Portion int
-
-const (
-	Reguller Portion = iota
-)

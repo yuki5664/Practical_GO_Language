@@ -77,7 +77,7 @@ type fluentOpt struct {
 	ebiten   uint
 }
 
-func NewUdon(p Portion) *fluentOpt {
+func NewUdon2(p Portion) *fluentOpt {
 	return &fluentOpt{
 		men:      p,
 		aburaage: false,
@@ -104,5 +104,32 @@ func (o *fluentOpt) Order() *Udon {
 }
 
 func useFluentInterfase() {
-	oomoriKitsune := NewUdon(Large).Aburaage().Order()
+	oomoriKitsune := NewUdon2(Large).Aburaage().Order()
+}
+
+// Functional Optionパターンを使ったオプション引数
+type OptFunc func(r *Udon)
+
+func NewUdon3(opts ...OptFunc) *Udon {
+	r := &Udon{}
+	for _, opt := range opts {
+		opt(r)
+	}
+	return r
+}
+
+func OptMen(p Portion) OptFunc {
+	return func(r *Udon) { r.men = p }
+}
+
+func OptAburaage() OptFunc {
+	return func(r *Udon) { r.aburaage = true }
+}
+
+func OptEbiten(n uint) OptFunc {
+	return func(r *Udon) { r.ebiten = n }
+}
+
+func userFuncOption() {
+	tokuseiUdon := NewUdon3(OptAburaage(), OptEbiten(3))
 }
